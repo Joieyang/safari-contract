@@ -24,7 +24,12 @@ export async function GET(_req: Request, { params }: Ctx) {
 export async function PUT(req: Request, { params }: Ctx) {
   if (!supabase) return notConfigured();
   const { id } = await params;
-  const body = (await req.json()) as ContractData;
+  let body: ContractData;
+  try {
+    body = (await req.json()) as ContractData;
+  } catch {
+    return NextResponse.json({ error: "请求体不是有效 JSON" }, { status: 400 });
+  }
 
   const { data, error } = await supabase
     .from("contracts")

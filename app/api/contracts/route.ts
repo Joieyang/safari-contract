@@ -36,7 +36,12 @@ export async function GET(req: Request) {
 // POST /api/contracts —— 创建合同（后端自动生成编号）
 export async function POST(req: Request) {
   if (!supabase) return notConfigured();
-  const body = (await req.json()) as ContractData;
+  let body: ContractData;
+  try {
+    body = (await req.json()) as ContractData;
+  } catch {
+    return NextResponse.json({ error: "请求体不是有效 JSON" }, { status: 400 });
+  }
   const contract_no = await generateContractNumber();
 
   const row = {

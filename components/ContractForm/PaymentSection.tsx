@@ -29,17 +29,17 @@ export default function PaymentSection({ payment }: { payment: Payment }) {
           <strong>Payment Method / 付款方式：Bank Transfer / 银行转账</strong>
         </div>
         <div className="en" style={{ marginTop: "6px" }}>
-          Bank Name: {payment.bankName}
+          Bank Name: {payment.bankName ?? ""}
           <br />
-          Account Name: {payment.accountName}
+          Account Name: {payment.accountName ?? ""}
           <br />
-          Account No.: {payment.accountNo}
+          Account No.: {payment.accountNo ?? ""}
           <br />
-          Branch: {payment.branchName} ({payment.branch})
+          Branch: {payment.branchName ?? ""} ({payment.branch ?? ""})
           <br />
-          Bank Code: {payment.bankCode}
+          Bank Code: {payment.bankCode ?? ""}
           <br />
-          SWIFT Code: {payment.swiftCode}
+          SWIFT Code: {payment.swiftCode ?? ""}
         </div>
         <div className="zh" style={{ marginTop: "6px", color: "#888", fontSize: "11.5px" }}>
           所有银行手续费由汇款方承担 / All bank charges are borne by the remitter.

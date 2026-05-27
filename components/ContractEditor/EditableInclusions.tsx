@@ -18,8 +18,8 @@ function ItemList({
     <>
       <ul>
         {items.map((item, i) => (
-          <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: "6px" }}>
-            <div style={{ flex: 1 }}>
+          <li key={i} className="ce-incl-item">
+            <div className="ce-incl-fields">
               <TextInput value={item.en} onChange={(v) => onItem(i, { en: v })} placeholder="English" />
               <TextInput value={item.zh} onChange={(v) => onItem(i, { zh: v })} placeholder="中文" className="ce-sub" />
             </div>
@@ -35,7 +35,7 @@ function ItemList({
           </li>
         ))}
       </ul>
-      <div style={{ padding: "0 12px 10px" }}>
+      <div className="ce-incl-add">
         <button type="button" className="ce-btn ce-btn-add no-print" onClick={onAdd}>
           {addLabel}
         </button>

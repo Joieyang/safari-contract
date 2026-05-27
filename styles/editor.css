@@ -119,6 +119,9 @@
 .incl-box .ce-incl-fields {
   flex: 1;
 }
+.ce-incl-add {
+  padding: 0 12px 10px;
+}
 
 .editor-status {
   color: #ffe9b0;

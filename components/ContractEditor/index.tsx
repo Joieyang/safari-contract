@@ -81,9 +81,19 @@ export default function ContractEditor({
         setData({
           ...emptyContract,
           ...parsed,
-          serviceProvider: { ...emptyContract.serviceProvider, ...parsed.serviceProvider },
-          payment: { ...emptyContract.payment, ...parsed.payment },
-          tour: { ...emptyContract.tour, ...parsed.tour },
+          serviceProvider: parsed.serviceProvider
+            ? { ...emptyContract.serviceProvider, ...parsed.serviceProvider }
+            : emptyContract.serviceProvider,
+          payment: parsed.payment
+            ? { ...emptyContract.payment, ...parsed.payment }
+            : emptyContract.payment,
+          tour: parsed.tour
+            ? { ...emptyContract.tour, ...parsed.tour }
+            : emptyContract.tour,
+          accommodation: parsed.accommodation ?? emptyContract.accommodation,
+          inclusions: parsed.inclusions ?? emptyContract.inclusions,
+          exclusions: parsed.exclusions ?? emptyContract.exclusions,
+          travelers: parsed.travelers ?? emptyContract.travelers,
         });
       }
     } catch {
@@ -218,6 +228,14 @@ export default function ContractEditor({
 
   // ---- 保存到云端 ----
   const save = async () => {
+    if (!data.travelers?.[0]?.name?.trim()) {
+      alert("请填写至少一位旅行者姓名后再保存。");
+      return;
+    }
+    if (!data.tour?.departureDate) {
+      alert("请填写出发日期后再保存。");
+      return;
+    }
     setSaving(true);
     setStatus("保存中…");
     try {

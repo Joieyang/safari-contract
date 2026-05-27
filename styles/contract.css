@@ -25,24 +25,6 @@
     margin-bottom: 28px;
   }
 
-  .header .logo-area {
-    margin-bottom: 4px;
-  }
-
-  .header-logo {
-    height: 110px;
-    width: auto;
-    display: block;
-    margin: 0 auto;
-  }
-
-  .header-brand-name {
-    font-size: 20px;
-    font-weight: 700;
-    color: #1a3a5c;
-    letter-spacing: 6px;
-    margin-bottom: 6px;
-  }
 
   .contract-title {
     font-size: 16px;
@@ -56,13 +38,6 @@
     font-size: 13px;
     color: #1a3a5c;
     letter-spacing: 2px;
-  }
-
-  .header-subtext {
-    font-size: 12px;
-    color: #b8862a;
-    letter-spacing: 1.5px;
-    font-style: italic;
   }
 
   /* 仅打印可见，替代浏览器默认左上角日期 */
@@ -567,6 +542,13 @@
   @media print {
     body { font-size: 12px; }
     .page { padding: 32px 28px 20px; }
+
+    .traveler-table,
+    .accom-table,
+    .payment-table,
+    .refund-table { page-break-inside: avoid; }
+    .traveler-table tr,
+    .accom-table tr { page-break-inside: avoid; }
 
     .running-header-print {
       display: block;
