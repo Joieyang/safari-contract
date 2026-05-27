@@ -39,6 +39,10 @@ export async function urlToPdf(url: string): Promise<Uint8Array> {
   try {
     const page = await browser.newPage();
     await page.goto(url, { waitUntil: "networkidle0", timeout: 30000 });
+    // 确保 Web 字体（中文 Noto Sans SC）已加载完再渲染，否则中文会缺字
+    await page.evaluate(async () => {
+      await (document as unknown as { fonts: { ready: Promise<unknown> } }).fonts.ready;
+    });
     const bytes = await page.pdf({
       format: "A4",
       printBackground: true,
