@@ -26,16 +26,39 @@ export default function EditableParties({
   const [uploading, setUploading] = useState(false);
   const [hint, setHint] = useState<string | null>(null);
 
+  const compressImage = (file: File): Promise<Blob> =>
+    new Promise((resolve) => {
+      const img = new Image();
+      const url = URL.createObjectURL(file);
+      img.onload = () => {
+        const MAX = 1500;
+        let { width, height } = img;
+        if (width > MAX || height > MAX) {
+          if (width > height) { height = Math.round((height * MAX) / width); width = MAX; }
+          else { width = Math.round((width * MAX) / height); height = MAX; }
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = width; canvas.height = height;
+        canvas.getContext("2d")!.drawImage(img, 0, 0, width, height);
+        canvas.toBlob((b) => { URL.revokeObjectURL(url); resolve(b ?? file); }, "image/jpeg", 0.85);
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); resolve(file); };
+      img.src = url;
+    });
+
   const handlePassportUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files ?? []);
     if (!files.length) return;
     e.target.value = "";
 
     setUploading(true);
-    setHint(`识别中（${files.length} 张）…`);
+    setHint(`压缩并识别中（${files.length} 张）…`);
     try {
       const form = new FormData();
-      files.forEach((f) => form.append("files", f));
+      for (const f of files) {
+        const compressed = await compressImage(f);
+        form.append("files", compressed, f.name);
+      }
       const res = await fetch("/api/passport", { method: "POST", body: form });
       const json = await res.json();
       if (!res.ok) {

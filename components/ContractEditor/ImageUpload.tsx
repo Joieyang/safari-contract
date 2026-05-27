@@ -11,6 +11,26 @@ export default function ImageUpload({ onExtracted }: { onExtracted: (r: ExtractR
   const [msg, setMsg] = useState("");
   const [dragOver, setDragOver] = useState(false);
 
+  const compressImage = (file: File): Promise<Blob> =>
+    new Promise((resolve) => {
+      const img = new Image();
+      const url = URL.createObjectURL(file);
+      img.onload = () => {
+        const MAX = 1500;
+        let { width, height } = img;
+        if (width > MAX || height > MAX) {
+          if (width > height) { height = Math.round((height * MAX) / width); width = MAX; }
+          else { width = Math.round((width * MAX) / height); height = MAX; }
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = width; canvas.height = height;
+        canvas.getContext("2d")!.drawImage(img, 0, 0, width, height);
+        canvas.toBlob((b) => { URL.revokeObjectURL(url); resolve(b ?? file); }, "image/jpeg", 0.85);
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); resolve(file); };
+      img.src = url;
+    });
+
   const handleFile = async (file: File) => {
     if (!file.type.startsWith("image/")) {
       setStatus("error");
@@ -20,8 +40,9 @@ export default function ImageUpload({ onExtracted }: { onExtracted: (r: ExtractR
     setStatus("loading");
     setMsg(`识别中…（${file.name}）约 5–15 秒`);
     try {
+      const compressed = await compressImage(file);
       const fd = new FormData();
-      fd.append("image", file);
+      fd.append("image", compressed, file.name);
       const res = await fetch("/api/extract", { method: "POST", body: fd });
       const data = await res.json();
       if (!res.ok) {
