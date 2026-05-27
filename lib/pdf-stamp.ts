@@ -9,8 +9,8 @@ const BRAND = "VEILSCAPE SAFARI";
 
 export async function stampRunningHeader(pdfBytes: Uint8Array): Promise<Uint8Array> {
   const doc = await PDFDocument.load(pdfBytes);
-  const font = await doc.embedFont(StandardFonts.HelveticaBold);
-  const color = rgb(0x1a / 255, 0x3a / 255, 0x5c / 255); // 深蓝，与合同标题同色
+  const font = await doc.embedFont(StandardFonts.Helvetica);
+  const color = rgb(0xa3 / 255, 0xbd / 255, 0xd9 / 255); // 浅蓝，低调不抢眼
   const size = 7.5;
 
   const pages = doc.getPages();

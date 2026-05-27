@@ -33,7 +33,6 @@ export default function PartiesSection({
               ))}
             </tbody>
           </table>
-          <div className="traveler-hint">按实际旅行者人数添加行 &nbsp;/&nbsp; Add rows per actual travelers</div>
         </div>
         <div className="party-box">
           <div className="party-label">Party B — Service Provider &nbsp;/&nbsp; 乙方（旅行社）</div>

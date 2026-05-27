@@ -14,7 +14,7 @@ export default function SignatureSection({ travelers }: { travelers: Traveler[] 
             <span className="line-label">Date / 日期</span>
             <span className="underline"></span>
           </div>
-          <div className="stamp-area">Stamp Here</div>
+          <div className="stamp-area">Company Seal (if applicable)</div>
         </div>
         <div className="sig-box">
           <h4>Party A — Clients / 甲方（客户）</h4>
