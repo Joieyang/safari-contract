@@ -33,7 +33,7 @@ export const emptyContract: ContractData = {
     adults: null,
     children: null,
     totalAmount: null,
-    perPersonAmount: null,
+    perPersonFees: [{ label: "", amount: null }],
     depositAmount: null,
     balanceAmount: null,
   },

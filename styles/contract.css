@@ -40,12 +40,16 @@
     letter-spacing: 2px;
   }
 
-  /* 仅打印可见，替代浏览器默认左上角日期 */
-  .running-header-print {
-    display: none;
+  .brand-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: #b8862a;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
   }
 
-  .contract-title::after {
+  .contract-title-zh::after {
     content: '';
     display: block;
     width: 60px;
@@ -241,6 +245,15 @@
     margin-top: 12px;
   }
 
+  /* 合计独占整行，定金/尾款各半 */
+  .finance-grid-3 {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .finance-grid-3 .finance-card.primary {
+    grid-column: 1 / -1;
+  }
+
   .finance-card {
     border: 1px solid #d8e4f0;
     border-radius: 4px;
@@ -285,6 +298,33 @@
     opacity: 0.7;
   }
 
+  /* 每人费用明细：嵌在总金额卡片内（只读展示） */
+  .fc-breakdown {
+    list-style: none;
+    margin: 8px 0 0;
+    padding: 8px 0 0;
+    border-top: 1px dashed #e0c48a;
+  }
+
+  .fc-breakdown li {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 12.5px;
+    color: #8a6420;
+    padding: 2px 0;
+  }
+
+  .fc-breakdown .fcb-label {
+    font-weight: 500;
+  }
+
+  .fc-breakdown .fcb-amount {
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+  }
+
   /* Accommodation table */
   .accom-table {
     width: 100%;
@@ -312,6 +352,12 @@
 
   .accom-table tr:nth-child(even) td {
     background: #f7f9fc;
+  }
+
+  /* 日期列不换行（如需换行让酒店列换）；酒店列默认可换行 */
+  .accom-table td:first-child,
+  .accom-table th:first-child {
+    white-space: nowrap;
   }
 
   /* Inclusions — stacked vertically */
@@ -539,9 +585,12 @@
     color: #999;
   }
 
+  /* 打印 / 服务端 PDF 渲染：页边距由 PDF 接口统一控制（margin），
+     这里只负责让正文铺满内容区、隐藏交互元素、避免表格被切断。 */
   @media print {
     body { font-size: 12px; }
-    .page { padding: 32px 28px 20px; }
+    .page { max-width: none; margin: 0; padding: 0; }
+    .no-print, .editor-toolbar { display: none !important; }
 
     .traveler-table,
     .accom-table,
@@ -549,14 +598,4 @@
     .refund-table { page-break-inside: avoid; }
     .traveler-table tr,
     .accom-table tr { page-break-inside: avoid; }
-
-    .running-header-print {
-      display: block;
-      position: fixed;
-      top: 4px;
-      left: 8px;
-      font-size: 8pt;
-      color: #555;
-      letter-spacing: 0.5px;
-    }
   }

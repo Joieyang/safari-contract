@@ -11,6 +11,7 @@ import type {
   Traveler,
   AccommodationNight,
   BilingualItem,
+  PerPersonFee,
 } from "@/lib/types";
 import { emptyContract } from "@/lib/default-contract";
 import EditableHeader from "./EditableHeader";
@@ -69,6 +70,7 @@ export default function ContractEditor({
   const [loaded, setLoaded] = useState(isEdit);
   const [saving, setSaving] = useState(false);
   const [status, setStatus] = useState("");
+  const [pdfLoading, setPdfLoading] = useState(false);
 
   // 新建模式：仅客户端载入本地草稿
   useEffect(() => {
@@ -122,10 +124,7 @@ export default function ContractEditor({
   const updateTour = (patch: Partial<Tour>) =>
     setData((p) => {
       const tour: Tour = { ...p.tour, ...patch };
-      const recalc = "totalAmount" in patch || "adults" in patch || "children" in patch;
-      if (recalc && tour.totalAmount != null) {
-        const people = (tour.adults ?? 0) + (tour.children ?? 0);
-        tour.perPersonAmount = people > 0 ? Math.round(tour.totalAmount / people) : tour.totalAmount;
+      if ("totalAmount" in patch && tour.totalAmount != null) {
         tour.depositAmount = Math.round(tour.totalAmount * 0.3);
         tour.balanceAmount = tour.totalAmount - Math.round(tour.totalAmount * 0.3);
       }
@@ -158,6 +157,28 @@ export default function ContractEditor({
       });
       return { ...prev, travelers };
     });
+
+  const updateFee = (i: number, patch: Partial<PerPersonFee>) =>
+    setData((p) => ({
+      ...p,
+      tour: { ...p.tour, perPersonFees: p.tour.perPersonFees.map((f, idx) => (idx === i ? { ...f, ...patch } : f)) },
+    }));
+  const addFee = () =>
+    setData((p) => ({
+      ...p,
+      tour: { ...p.tour, perPersonFees: [...p.tour.perPersonFees, { label: "", amount: null }] },
+    }));
+  const removeFee = (i: number) =>
+    setData((p) => ({
+      ...p,
+      tour: {
+        ...p.tour,
+        perPersonFees:
+          p.tour.perPersonFees.length > 1
+            ? p.tour.perPersonFees.filter((_, idx) => idx !== i)
+            : p.tour.perPersonFees,
+      },
+    }));
 
   const updateNight = (i: number, patch: Partial<AccommodationNight>) =>
     setData((p) => ({ ...p, accommodation: p.accommodation.map((n, idx) => (idx === i ? { ...n, ...patch } : n)) }));
@@ -210,16 +231,12 @@ export default function ContractEditor({
         ...(toNum(rawTour.adults) !== null ? { adults: toNum(rawTour.adults) } : {}),
         ...(toNum(rawTour.children) !== null ? { children: toNum(rawTour.children) } : {}),
         ...(toNum(rawTour.totalAmount) !== null ? { totalAmount: toNum(rawTour.totalAmount) } : {}),
-        ...(toNum(rawTour.perPersonAmount) !== null ? { perPersonAmount: toNum(rawTour.perPersonAmount) } : {}),
         ...(toNum(rawTour.depositAmount) !== null ? { depositAmount: toNum(rawTour.depositAmount) } : {}),
         ...(toNum(rawTour.balanceAmount) !== null ? { balanceAmount: toNum(rawTour.balanceAmount) } : {}),
       };
       const tour: Tour = { ...prev.tour, ...coercedTour };
-      // 识别到总额但没识别到分项时，自动补算
+      // 识别到总额但没识别到分项时，自动补算定金/尾款
       if (tour.totalAmount != null) {
-        const people = (tour.adults ?? 0) + (tour.children ?? 0);
-        if (tour.perPersonAmount == null)
-          tour.perPersonAmount = people > 0 ? Math.round(tour.totalAmount / people) : tour.totalAmount;
         if (tour.depositAmount == null) tour.depositAmount = Math.round(tour.totalAmount * 0.3);
         if (tour.balanceAmount == null) tour.balanceAmount = tour.totalAmount - Math.round(tour.totalAmount * 0.3);
       }
@@ -270,6 +287,48 @@ export default function ContractEditor({
     }
   };
 
+  // ---- 服务端生成并下载 PDF ----
+  // PDF 由服务器读数据库渲染，故先保存当前编辑，再生成，保证内容一致。
+  const downloadPdf = async () => {
+    if (!contractId) {
+      alert("请先保存合同，再下载 PDF。");
+      return;
+    }
+    setPdfLoading(true);
+    setStatus("生成 PDF…");
+    try {
+      const saveRes = await fetch(`/api/contracts/${contractId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (!saveRes.ok) {
+        const e = await saveRes.json().catch(() => ({}));
+        throw new Error("保存失败：" + (e.error || `HTTP ${saveRes.status}`));
+      }
+      const res = await fetch(`/api/pdf/${contractId}`);
+      if (!res.ok) {
+        const e = await res.json().catch(() => ({}));
+        throw new Error(e.error || `HTTP ${res.status}`);
+      }
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${data.contractNo || "contract"}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      setStatus("");
+    } catch (e) {
+      setStatus("");
+      alert("PDF 生成失败：" + (e instanceof Error ? e.message : String(e)));
+    } finally {
+      setPdfLoading(false);
+    }
+  };
+
   const resetDraft = () => {
     if (!window.confirm("确定清空当前草稿并恢复空白合同？")) return;
     try {
@@ -301,16 +360,14 @@ export default function ContractEditor({
         <button
           type="button"
           className="ce-btn"
-          onClick={() => {
-            alert("打印前请在 Chrome 打印对话框中取消勾选「页眉和页脚」，否则浏览器会在左上角自动加日期。");
-            window.print();
-          }}
+          onClick={downloadPdf}
+          disabled={pdfLoading || saving}
+          title={isEdit ? "服务端生成 PDF 并下载" : "请先保存合同"}
         >
-          打印 / 导出
+          {pdfLoading ? "生成中…" : "下载 PDF"}
         </button>
       </div>
       <ImageUpload onExtracted={applyExtracted} />
-      <div className="running-header-print">Veilscape Safari</div>
       <div className="page">
         <EditableHeader />
         <EditableMeta contractNo={data.contractNo} signDate={data.signDate} onSignDateChange={setSignDate} />
@@ -323,7 +380,13 @@ export default function ContractEditor({
           onProvider={updateProvider}
           onPassportsRecognized={applyPassports}
         />
-        <EditableTour tour={data.tour} onChange={updateTour} />
+        <EditableTour
+          tour={data.tour}
+          onChange={updateTour}
+          onFee={updateFee}
+          onAddFee={addFee}
+          onRemoveFee={removeFee}
+        />
         <EditableAccommodation
           nights={data.accommodation}
           onNight={updateNight}

@@ -27,20 +27,23 @@ export default function TourSection({ tour }: { tour: Tour }) {
         </tbody>
       </table>
 
-      <div className="finance-grid">
+      <div className="finance-grid finance-grid-3">
         <div className="finance-card primary">
           <div className="fc-label">Total Amount / 合同总金额</div>
           <div className="fc-value">
             <span className="currency">USD</span>
             {money(tour.totalAmount)}
           </div>
-        </div>
-        <div className="finance-card">
-          <div className="fc-label">Per Person / 人均金额</div>
-          <div className="fc-value">
-            <span className="currency">USD</span>
-            {money(tour.perPersonAmount)}
-          </div>
+          {tour.perPersonFees?.some((f) => f.label || f.amount !== null) && (
+            <ul className="fc-breakdown">
+              {tour.perPersonFees.map((fee, i) => (
+                <li key={i}>
+                  <span className="fcb-label">{fee.label || "______"}</span>
+                  <span className="fcb-amount">USD {money(fee.amount)}</span>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
         <div className="finance-card">
           <div className="fc-label">Deposit (30%) / 定金</div>

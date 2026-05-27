@@ -261,9 +261,50 @@
   color: #888;
 }
 
+/* 每人费用明细编辑区（嵌在总金额卡片内，仅屏幕可见） */
+.fc-breakdown-edit {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed #e0c48a;
+}
+.fc-breakdown-edit .fcb-title {
+  font-size: 11px;
+  color: #8a6420;
+  margin-bottom: 6px;
+}
+.fc-breakdown-edit .fcb-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+.fc-breakdown-edit .fcb-label-input {
+  flex: 1;
+  min-width: 0;
+}
+.fc-breakdown-edit .fcb-row .currency {
+  color: #8a6420;
+  font-size: 12px;
+}
+.fc-breakdown-edit .fcb-amount-input {
+  width: 90px;
+  flex: none;
+}
+.fc-breakdown-edit .ce-btn-add {
+  margin-top: 2px;
+}
+
+/* 屏幕上隐藏只读明细（编辑器内用 .fc-breakdown-edit 代替），打印时显示 */
+.print-only {
+  display: none;
+}
+
 @media print {
   .no-print {
     display: none !important;
+  }
+  .print-only {
+    display: block !important;
   }
   .ce-input {
     border-color: transparent !important;

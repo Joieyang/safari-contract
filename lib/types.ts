@@ -38,13 +38,18 @@ export type Payment = {
   accountNo: string;
 };
 
+export type PerPersonFee = {
+  label: string;
+  amount: number | null;
+};
+
 export type Tour = {
   departureDate: string;
   returnDate: string;
   adults: number | null;
   children: number | null;
   totalAmount: number | null;
-  perPersonAmount: number | null;
+  perPersonFees: PerPersonFee[];
   depositAmount: number | null; // 默认 = 总额 × 0.3
   balanceAmount: number | null; // 默认 = 总额 × 0.7
 };

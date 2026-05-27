@@ -9,9 +9,9 @@ export default function AccommodationSection({ nights }: { nights: Accommodation
       <table className="accom-table">
         <thead>
           <tr>
-            <th style={{ width: "12%" }}>Date / 日期</th>
+            <th style={{ width: "14%" }}>Date / 日期</th>
             <th style={{ width: "20%" }}>Region / 地区</th>
-            <th style={{ width: "32%" }}>Hotel (Camp) / 酒店</th>
+            <th style={{ width: "30%" }}>Hotel (Camp) / 酒店</th>
             <th style={{ width: "18%" }}>Room Type / 房型</th>
             <th style={{ width: "18%" }}>Meals / 餐食</th>
           </tr>

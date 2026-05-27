@@ -26,7 +26,6 @@ function PhaseDivider() {
 export default function ContractForm({ data }: { data: ContractData }) {
   return (
     <>
-      <div className="running-header-print">Veilscape Safari</div>
       <div className="page">
       <ContractHeader />
       <ContractMeta contractNo={data.contractNo} signDate={data.signDate} />
