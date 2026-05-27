@@ -1,0 +1,271 @@
+/* 编辑器交互样式（Milestone 2） */
+/* 原则：屏幕上可编辑、有轻提示；打印/PDF 时隐藏所有控件、输入框还原为纯文本观感。 */
+
+.ce-input {
+  font: inherit;
+  color: inherit;
+  width: 100%;
+  border: 1px solid transparent;
+  background: transparent;
+  padding: 2px 5px;
+  border-radius: 3px;
+  box-sizing: border-box;
+}
+.ce-input::placeholder {
+  color: #c2ccd8;
+}
+.ce-input:hover {
+  background: #f5f8fc;
+}
+.ce-input:focus {
+  outline: none;
+  background: #fff;
+  border-color: #b8862a;
+  box-shadow: 0 0 0 2px rgba(184, 134, 42, 0.15);
+}
+
+/* 行内输入（页眉副标题、签约日期、银行信息、金额等） */
+.ce-inline {
+  width: auto;
+  display: inline-block;
+  min-width: 120px;
+}
+.ce-center {
+  text-align: center;
+}
+.ce-subname {
+  min-width: 320px;
+}
+.ce-amount {
+  width: auto;
+  display: inline-block;
+  min-width: 90px;
+}
+.ce-sub {
+  color: #555;
+  font-size: 12px;
+}
+
+/* 顶部工具条 */
+.editor-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 10px 56px;
+  background: #1a3a5c;
+  color: #fff;
+}
+.editor-toolbar-title {
+  font-size: 13px;
+  margin-right: auto;
+  letter-spacing: 0.3px;
+}
+
+/* 按钮 */
+.ce-btn {
+  background: #b8862a;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 14px;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+.ce-btn:hover {
+  filter: brightness(1.08);
+}
+.ce-btn-ghost {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: #fff;
+}
+.ce-btn-add {
+  background: #f0f5fa;
+  color: #1a3a5c;
+  border: 1px dashed #9bb3cc;
+  margin-top: 6px;
+  font-size: 12px;
+}
+
+/* 行删除按钮 */
+.ce-row-del {
+  background: transparent;
+  border: none;
+  color: #a02020;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 4px;
+}
+.ce-row-del:hover {
+  color: #d03030;
+}
+.ce-col-action {
+  width: 28px;
+  text-align: center;
+}
+
+/* 服务范围条目编辑：en 一行、zh 一行 */
+.incl-box .ce-incl-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+}
+.incl-box .ce-incl-fields {
+  flex: 1;
+}
+
+.editor-status {
+  color: #ffe9b0;
+  font-weight: 600;
+}
+
+/* 上传识别条（M4） */
+.upload-bar {
+  max-width: 780px;
+  margin: 12px auto 0;
+  padding: 12px 16px;
+  border: 1.5px dashed #9bb3cc;
+  border-radius: 6px;
+  background: #f5f8fc;
+  color: #1a3a5c;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+.upload-bar:hover,
+.upload-bar.drag {
+  background: #eaf1f9;
+  border-color: #b8862a;
+}
+.upload-bar.busy {
+  cursor: progress;
+  border-color: #b8862a;
+  background: #fef9ec;
+}
+.upload-icon {
+  font-size: 16px;
+}
+
+/* ---- 列表页 / 配置提示（M3）---- */
+.home-wrap {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 32px 24px 60px;
+  font-family: "Helvetica Neue", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  color: #1a1a1a;
+}
+.home-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+.home-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a3a5c;
+  letter-spacing: 1px;
+}
+.home-search {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid #d0dae8;
+  border-radius: 6px;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+.home-search:focus {
+  outline: none;
+  border-color: #b8862a;
+  box-shadow: 0 0 0 2px rgba(184, 134, 42, 0.15);
+}
+.home-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.home-table th {
+  text-align: left;
+  color: #1a3a5c;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 10px;
+  border-bottom: 2px solid #1a3a5c;
+}
+.home-table td {
+  padding: 9px 10px;
+  border-bottom: 1px solid #edf1f7;
+}
+.home-row {
+  cursor: pointer;
+}
+.home-row:hover td {
+  background: #f5f8fc;
+}
+.home-no {
+  color: #b8862a;
+  font-weight: 700;
+}
+.home-muted {
+  color: #999;
+}
+.home-empty {
+  text-align: center;
+  color: #888;
+  padding: 48px 0;
+  font-size: 14px;
+}
+.setup-card {
+  border: 1px solid #d0dae8;
+  border-left: 3px solid #b8862a;
+  border-radius: 6px;
+  background: #fafbfc;
+  padding: 18px 22px;
+}
+.setup-card h2 {
+  font-size: 15px;
+  color: #1a3a5c;
+  margin-bottom: 10px;
+}
+.setup-card p {
+  font-size: 13px;
+  color: #444;
+  margin-bottom: 8px;
+  line-height: 1.7;
+}
+.setup-card ol {
+  margin: 6px 0 6px 20px;
+  font-size: 13px;
+  color: #333;
+  line-height: 1.9;
+}
+.setup-card code {
+  background: #eef2f7;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 12px;
+  color: #1a3a5c;
+}
+.setup-hint {
+  color: #888;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  .ce-input {
+    border-color: transparent !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+}

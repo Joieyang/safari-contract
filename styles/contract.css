@@ -1,0 +1,580 @@
+/* 合同模板样式 — 从 ~/Documents/safari_contract_template.html 迁移 (Milestone 1) */
+/* 改样式时同步原模板，保持单一视觉来源 */
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: "Helvetica Neue", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+    font-size: 13px;
+    color: #1a1a1a;
+    background: #fff;
+    line-height: 1.7;
+  }
+
+  .page {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 48px 56px;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    border-bottom: 3px solid #1a3a5c;
+    padding-bottom: 24px;
+    margin-bottom: 28px;
+  }
+
+  .header .logo-area {
+    margin-bottom: 4px;
+  }
+
+  .header-logo {
+    height: 110px;
+    width: auto;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .header-brand-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a3a5c;
+    letter-spacing: 6px;
+    margin-bottom: 6px;
+  }
+
+  .contract-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a3a5c;
+    letter-spacing: 3px;
+    margin-bottom: 4px;
+  }
+
+  .contract-title-zh {
+    font-size: 13px;
+    color: #1a3a5c;
+    letter-spacing: 2px;
+  }
+
+  .header-subtext {
+    font-size: 12px;
+    color: #b8862a;
+    letter-spacing: 1.5px;
+    font-style: italic;
+  }
+
+  /* 仅打印可见，替代浏览器默认左上角日期 */
+  .running-header-print {
+    display: none;
+  }
+
+  .contract-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 2px;
+    background: #b8862a;
+    margin: 10px auto 0;
+  }
+
+  /* Contract meta */
+  .contract-meta {
+    display: flex;
+    justify-content: space-between;
+    background: #fafbfc;
+    border-left: 3px solid #b8862a;
+    padding: 10px 16px;
+    margin-bottom: 28px;
+    font-size: 12.5px;
+  }
+
+  .contract-meta span { color: #444; }
+  .contract-meta strong { color: #1a3a5c; }
+
+  /* Section */
+  .section {
+    margin-bottom: 26px;
+  }
+
+  .section-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a3a5c;
+    background: transparent;
+    padding: 0 0 6px 0;
+    margin-bottom: 14px;
+    border-bottom: 1.5px solid #b8862a;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: baseline;
+  }
+
+  .section-title .num {
+    color: #b8862a;
+    font-size: 16px;
+    font-weight: 700;
+    margin-right: 14px;
+    letter-spacing: 1px;
+  }
+
+  /* Phase divider */
+  .phase-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 30px 0 28px;
+    color: #b8862a;
+  }
+
+  .phase-divider::before,
+  .phase-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #d0dae8;
+  }
+
+  .phase-divider .dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #b8862a;
+    margin: 0 10px;
+  }
+
+  /* Party info — stacked vertically */
+  .party-grid {
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .party-grid .party-box + .party-box {
+    margin-top: 12px;
+  }
+
+  /* Traveler table (Party A) */
+  .traveler-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+  }
+
+  .traveler-table th {
+    background: #f0f5fa;
+    color: #1a3a5c;
+    font-weight: 700;
+    font-size: 11.5px;
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 2px solid #1a3a5c;
+    width: 33.33%;
+  }
+
+  .traveler-table td {
+    padding: 9px 12px;
+    border-bottom: 1px solid #edf1f7;
+    font-size: 12.5px;
+    height: 28px;
+  }
+
+  .traveler-hint {
+    padding: 6px 12px;
+    font-size: 11px;
+    color: #888;
+    background: #fafbfc;
+    font-style: italic;
+    border-top: 1px solid #edf1f7;
+  }
+
+  .party-box {
+    border: 1px solid #d0dae8;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .party-box .party-label {
+    background: #fafbfc;
+    padding: 7px 12px 7px 14px;
+    font-weight: 700;
+    font-size: 12px;
+    color: #1a3a5c;
+    border-bottom: 1px solid #d0dae8;
+    border-left: 3px solid #b8862a;
+  }
+
+  .party-box table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .party-box td {
+    padding: 5px 12px;
+    border-bottom: 1px solid #edf1f7;
+    font-size: 12.5px;
+    vertical-align: top;
+  }
+
+  .party-box td:first-child {
+    color: #555;
+    width: 38%;
+    white-space: nowrap;
+  }
+
+  .party-box td.fill {
+    color: #1a3a5c;
+    font-weight: 500;
+  }
+
+  .party-box td.blank {
+    color: #bbb;
+    font-style: italic;
+  }
+
+  /* Tour info table */
+  .info-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+  }
+
+  .info-table td {
+    padding: 7px 12px;
+    border: 1px solid #d8e4f0;
+    vertical-align: top;
+  }
+
+  .info-table td.label {
+    background: #f0f5fa;
+    color: #1a3a5c;
+    font-weight: 600;
+    width: 25%;
+    white-space: nowrap;
+  }
+
+  .info-table td.value {
+    color: #222;
+    min-height: 24px;
+  }
+
+  /* Financial summary card grid */
+  .finance-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  .finance-card {
+    border: 1px solid #d8e4f0;
+    border-radius: 4px;
+    padding: 10px 14px;
+    background: #fff;
+  }
+
+  .finance-card .fc-label {
+    font-size: 11.5px;
+    color: #555;
+    margin-bottom: 4px;
+    letter-spacing: 0.3px;
+  }
+
+  .finance-card .fc-value {
+    font-size: 15px;
+    color: #1a3a5c;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  .finance-card .fc-value .currency {
+    color: #888;
+    font-weight: 500;
+    margin-right: 4px;
+    font-size: 13px;
+  }
+
+  .finance-card.primary {
+    background: #fef9ec;
+    border: 1px solid #e6c674;
+    border-left: 3px solid #b8862a;
+  }
+
+  .finance-card.primary .fc-value {
+    color: #b8862a;
+    font-size: 17px;
+  }
+
+  .finance-card.primary .fc-value .currency {
+    color: #b8862a;
+    opacity: 0.7;
+  }
+
+  /* Accommodation table */
+  .accom-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+
+  .accom-table th {
+    background: #f0f5fa;
+    color: #1a3a5c;
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 11.5px;
+    border-bottom: 2px solid #1a3a5c;
+    white-space: nowrap;
+  }
+
+  .accom-table td {
+    padding: 7px 10px;
+    border-bottom: 1px solid #dde6f0;
+    vertical-align: top;
+    min-height: 26px;
+  }
+
+  .accom-table tr:nth-child(even) td {
+    background: #f7f9fc;
+  }
+
+  /* Inclusions — stacked vertically */
+  .incl-grid {
+    display: block;
+  }
+
+  .incl-grid .incl-box + .incl-box {
+    margin-top: 12px;
+  }
+
+  .incl-box { border: 1px solid #d0dae8; border-radius: 4px; overflow: hidden; }
+
+  .incl-box .incl-label {
+    padding: 6px 12px;
+    font-weight: 700;
+    font-size: 12px;
+    border-bottom: 1px solid #d0dae8;
+  }
+
+  .incl-box.included .incl-label { background: #f0f5fa; color: #1a3a5c; border-bottom: 2px solid #1a3a5c; }
+  .incl-box.excluded .incl-label { background: #f0f5fa; color: #1a3a5c; border-bottom: 2px solid #1a3a5c; }
+
+  .incl-box ul {
+    list-style: none;
+    padding: 8px 12px;
+  }
+
+  .incl-box ul li {
+    padding: 3px 0;
+    font-size: 12px;
+    border-bottom: 1px solid #f0f0f0;
+    line-height: 1.5;
+  }
+
+  .incl-box ul li:last-child { border-bottom: none; }
+
+  .incl-box.included ul li::before { content: "✓  "; color: #1a7a3a; font-weight: bold; }
+  .incl-box.excluded ul li::before { content: "✗  "; color: #a02020; font-weight: bold; }
+
+  /* Payment table */
+  .payment-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    margin-bottom: 12px;
+  }
+
+  .payment-table th {
+    background: #f0f5fa;
+    color: #1a3a5c;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 700;
+    border-bottom: 2px solid #1a3a5c;
+  }
+
+  .payment-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #dde6f0;
+  }
+
+  .payment-table tr:nth-child(even) td {
+    background: #fafbfc;
+  }
+
+  /* Refund table */
+  .season-note {
+    font-size: 11px;
+    color: #555;
+    margin-bottom: 8px;
+  }
+
+  .refund-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+
+  .refund-table th {
+    background: #f0f5fa;
+    color: #1a3a5c;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 11.5px;
+    font-weight: 700;
+    border-bottom: 2px solid #1a3a5c;
+  }
+
+  .refund-table td {
+    padding: 7px 12px;
+    border-bottom: 1px solid #dde6f0;
+  }
+
+  .refund-table tr:nth-child(even) td { background: #f7f9fc; }
+
+  .refund-table .no-refund td { color: #555; font-weight: 600; font-style: italic; }
+
+  /* Policy paragraphs */
+  .policy-block {
+    border-left: 3px solid #d0dae8;
+    padding: 8px 14px;
+    margin-bottom: 10px;
+    font-size: 12.5px;
+    background: #fafbfc;
+  }
+
+  .policy-block .en { color: #333; margin-bottom: 4px; }
+  .policy-block .zh { color: #555; }
+
+  .policy-block h4 {
+    font-size: 12.5px;
+    color: #1a3a5c;
+    margin-bottom: 5px;
+  }
+
+  /* Liability cards (no numbering, just bold inline labels) */
+  .liability-list {
+    list-style: none;
+  }
+
+  .liability-list li {
+    border: 1px solid #d8e4f0;
+    border-left: 3px solid #b8862a;
+    border-radius: 0;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    font-size: 12.5px;
+    background: #fafbfc;
+  }
+
+  .liability-list li .en { color: #333; }
+  .liability-list li .zh { color: #666; margin-top: 3px; }
+
+  /* Notice box */
+  .notice {
+    background: #fef9ec;
+    border-left: 3px solid #b8862a;
+    border-radius: 0;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: #5a4a1a;
+    margin-top: 10px;
+  }
+
+  /* Signature */
+  .signature-section {
+    margin-top: 32px;
+    border: 1px solid #d0dae8;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .signature-section .sig-title {
+    background: #1a3a5c;
+    color: #fff;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  .sig-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .sig-box {
+    padding: 20px 24px;
+  }
+
+  .sig-box:first-child {
+    border-right: 1px solid #d0dae8;
+  }
+
+  .sig-box h4 {
+    color: #1a3a5c;
+    font-size: 12.5px;
+    margin-bottom: 12px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #e0e8f0;
+  }
+
+  .sig-line {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #444;
+  }
+
+  .sig-line .line-label {
+    color: #888;
+    font-size: 11.5px;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .sig-line .underline {
+    display: block;
+    border-bottom: 1px solid #aaa;
+    height: 22px;
+    margin-bottom: 12px;
+  }
+
+  .sig-prefill {
+    color: #1a3a5c;
+    font-weight: 500;
+  }
+
+  .stamp-area {
+    color: #ccc;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    margin-top: 14px;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 36px;
+    padding-top: 14px;
+    border-top: 1px solid #d0dae8;
+    text-align: center;
+    font-size: 11px;
+    color: #999;
+  }
+
+  @media print {
+    body { font-size: 12px; }
+    .page { padding: 32px 28px 20px; }
+
+    .running-header-print {
+      display: block;
+      position: fixed;
+      top: 4px;
+      left: 8px;
+      font-size: 8pt;
+      color: #555;
+      letter-spacing: 0.5px;
+    }
+  }

@@ -1,66 +1,57 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import { supabase, supabaseConfigured } from "@/lib/supabase";
+import type { ContractListItem } from "@/lib/types";
+import ContractListView from "@/components/ContractListView";
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+function SetupNotice() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+    <div className="home-wrap">
+      <h1 className="home-title">Safari 合同</h1>
+      <div className="setup-card">
+        <h2>还差一步：连接云端数据库</h2>
+        <p>当前未检测到 Supabase 配置，合同还无法云端保存。请按以下步骤：</p>
+        <ol>
+          <li>注册并新建一个 Supabase 项目（免费）</li>
+          <li>
+            在 <code>SQL Editor</code> 里运行仓库内 <code>supabase/schema.sql</code> 建表
+          </li>
+          <li>
+            把项目的 URL 和 anon key 填进根目录 <code>.env.local</code>（可参考 <code>.env.example</code>）
+          </li>
+          <li>
+            重启 <code>npm run dev</code>，刷新本页
+          </li>
+        </ol>
+        <p className="setup-hint">配好后这里会自动变成合同列表。</p>
+      </div>
     </div>
   );
+}
+
+export default async function HomePage() {
+  if (!supabaseConfigured || !supabase) return <SetupNotice />;
+
+  const { data, error } = await supabase
+    .from("contracts")
+    .select("id, contract_no, client_name, departure_date, created_at")
+    .order("created_at", { ascending: false })
+    .limit(100);
+
+  if (error) {
+    return (
+      <div className="home-wrap">
+        <h1 className="home-title">Safari 合同</h1>
+        <div className="setup-card">
+          <h2>读取数据出错</h2>
+          <p>{error.message}</p>
+          <p className="setup-hint">
+            若提示表不存在，请先在 Supabase SQL Editor 运行 <code>supabase/schema.sql</code>。
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  return <ContractListView initial={(data ?? []) as ContractListItem[]} />;
 }
